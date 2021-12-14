@@ -3,33 +3,33 @@
 
 <style>
   body {
-    background-image: url("https://media.discordapp.net/attachments/909431054463533071/920308733811241000/milky-way-starry-sky-night-sky-star-956999.jpeg");
-
+    /* background-image: url("https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"); */
+    background-image: url("https://images-ext-2.discordapp.net/external/6zQGvi_d0op_ApkQ86kT5byr-C721cI_zNzfwelHnX8/%3Fauto%3Dcompress%26cs%3Dtinysrgb%26dpr%3D2%26h%3D650%26w%3D940/https/images.pexels.com/photos/844297/pexels-photo-844297.jpeg?width=720&height=480");
     background-size: cover;
     background-repeat: no-repeat;
   }
 
   #text:focus {
-    border: 2px solid purple
+    border: 2px solid blue
   }
 
   #button-post {
-    background-color: purple;
-    border: purple;
+    background-color: blue;
+
   }
 </style>
 
-<h1 align="center">Make a Post</h1>
+<h1 align="center" style="color: white;">Tạo bài viết</h1>
 
 <form method="POST">
   <textarea placeholder="Viết gì đó đi..." name="text" id="text" class="form-control"></textarea>
   <br />
   <div align="center">
-    <button type="submit" id="button-post" class="btn btn-lg btn-primary">Post</button>
+    <button type="submit" id="button-post" class="btn btn-lg btn-primary">Đăng bài</button>
   </div>
 </form>
 <br />
 <div align="center">
-  <a href="/home"><button type="button" class="btn btn-lg btn-secondary">Back</button></a>
+  <a href="/home"><button type="button" class="btn btn-lg btn-secondary">Trở lại</button></a>
 </div>
 {% endblock %}
