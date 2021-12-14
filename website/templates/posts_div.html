@@ -1,37 +1,58 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+{% extends "base.html" %} {% block title %}Trang chủ{% endblock %} {% block content
 %}
-<h1 align="center">{% block header %}Posts{% endblock %}</h1>
-<div id="posts">
+<style>
+        .GFG {
+            padding: 5px 10px;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 30px;
+            cursor: pointer;
+            text-decoration:none;
+        }
+</style>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<h1 align="center">{% block header %}Trang chủ{% endblock %}</h1>
+<div class="shadow p-3" id="posts" style="width:85%;margin:auto">
   {% for post in posts %}
-  <div class="card border-dark">
+  <div class="card shadow-lg">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
+      <a style="text-decoration: none" href="/posts/{{post.user.username}}">{{post.user.username}}</a>
+      <div class="card-footer text-muted">{{post.date_created}}</div>
       <div>
-        <span id="likes-count-{{post.id}}">
-        {{ post.likes|length }}</span> 
-        {% if user.id in post.likes|map(attribute="author")|list %}
-        <i
-          class="fas fa-thumbs-up"
-          id="like-button-{{post.id}}"
-          onclick="like({{post.id}})"
-        ></i>
-        {% else %}
-        <i
-          class="far fa-thumbs-up"
-          id="like-button-{{post.id}}"
-          onclick="like({{post.id}})"
-        ></i>
-        {% endif %} {% if user.id == post.author %}
+        {% if user.id == post.author %}
         <div class="btn-group">
           <button
             type="button"
             class="btn btn-sm btn-primary dropdown-toggle"
             data-bs-toggle="dropdown"
-          ></button>
+          ></button> 
           <ul class="dropdown-menu">
             <li>
               <a href="/delete-post/{{post.id}}" class="dropdown-item"
-                >Delete</a
+                >Xóa bài viết</a
               >
             </li>
           </ul>
@@ -44,6 +65,20 @@
       <br />
       <div class="collapse" id="comments-{{post.id}}">
         <div class="card">
+          <form
+          class="input-group mb-3"
+          method="POST"
+          action="/create-comment/{{post.id}}"
+          >
+            <input
+              type="text"
+              id="text"
+              name="text"
+              class="form-control"
+              placeholder="Comment something!"
+            />
+            <button type="submit" class="btn btn-primary">Bình luận</button>
+          </form>
           <div class="card-body" id="comments-expanded-{{post.id}}">
             {% for comment in post.comments %}
             <div class="d-flex justify-content-between align-items-center">
@@ -66,7 +101,7 @@
                       <a
                         href="/delete-comment/{{comment.id}}"
                         class="dropdown-item"
-                        >Delete</a
+                        >Xóa bình luận</a
                       >
                     </li>
                   </ul>
@@ -79,32 +114,36 @@
         </div>
       </div>
       <p class="card-text">
+        <span id="likes-count-{{post.id}}">
+        {{ post.likes|length }} </span> <span>lượt thích</span>
         {% if post.comments|length > 0 %}
-        <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
-          <small>View {{post.comments|length}} Comments</small>
-        </a>
-        {% else %}
-        <small class="text-muted">No Comments</small>
+        <small style="margin-left:80%">{{post.comments|length}} bình luận</small>
         {% endif %}
       </p>
-      <form
-        class="input-group mb-3"
-        method="POST"
-        action="/create-comment/{{post.id}}"
-      >
-        <input
-          type="text"
-          id="text"
-          name="text"
-          class="form-control"
-          placeholder="Comment something!"
-        />
-        <button type="submit" class="btn btn-primary">Comment</button>
-      </form>
+      <p class="card-text">
+        {% if user.id in post.likes|map(attribute="author")|list %}
+        <i
+          style="cursor: pointer;"
+          class="fas fa-thumbs-up"
+          id="like-button-{{post.id}}"
+          onclick="like({{post.id}})"
+        ></i>
+        {% else %}
+        <i
+          style="cursor: pointer;"
+          class="far fa-thumbs-up"
+          id="like-button-{{post.id}}"
+          onclick="like({{post.id}})"
+        ></i>
+        {% endif %}
+
+        <a class="GFG btn btn-sm btn-primary" style="margin-left:45%" data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">  
+          <small>Bình luận</small>
+        </a>
+      </p>
     </div>
-    <div class="card-footer text-muted">{{post.date_created}}</div>
   </div>
-  <br/ > {% endfor %}
+  <br > {% endfor %}
 </div>
 {% block footer %}
 <div align="center">
