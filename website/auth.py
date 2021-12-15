@@ -20,9 +20,9 @@ def login():
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Password is incorrect.', category='error')
+                flash('Sai mật khẩu.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Email không tồn tại.', category='error')
 
     return render_template("login.html", user=current_user)
 
@@ -39,17 +39,17 @@ def sign_up():
         username_exists = User.query.filter_by(username=username).first()
 
         if email_exists:
-            flash('Email is already in use.', category='error')
+            flash('Email đã được sử dụng.', category='error')
         elif username_exists:
-            flash('Username is already in use.', category='error')
+            flash('Username đã được dùng.', category='error')
         elif password1 != password2:
             flash('Password don\'t match!', category='error')
         elif len(username) < 2:
-            flash('Username is too short.', category='error')
+            flash('Username quá ngắn.', category='error')
         elif len(password1) < 6:
-            flash('Password is too short.', category='error')
+            flash('Password quá ngắn.', category='error')
         elif len(email) < 4:
-            flash("Email is invalid.", category='error')
+            flash("Email sai.", category='error')
         else:
             new_user = User(email=email, username=username, password=generate_password_hash(
                 password1, method='sha256'))

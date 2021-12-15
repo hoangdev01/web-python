@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
@@ -6,11 +6,14 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
+def page_not_found(e):
+  return render_template('404.html'), 404
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "helloworld"
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.register_error_handler(404, page_not_found)
     db.init_app(app)
 
     from .views import views
